@@ -1,4 +1,4 @@
-
+	
 '''
 Helper to preload windows dlls to prevent dll not found errors.
 Once a DLL is preloaded, its namespace is made available to any
@@ -6,6 +6,7 @@ subsequent DLL. This file originated in the numpy-wheels repo,
 and is created as part of the scripts that build the wheel.
 '''
 import os
+import ctypes
 from ctypes import WinDLL
 import glob
 if os.name == 'nt':

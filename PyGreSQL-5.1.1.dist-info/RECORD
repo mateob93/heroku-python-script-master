@@ -1,0 +1,11 @@
+PyGreSQL-5.1.1.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
+PyGreSQL-5.1.1.dist-info/LICENSE.txt,sha256=_npcpFnRL98XNzJ0cJAmwwINB_DBWyzsti2pHU_kPY0,1402
+PyGreSQL-5.1.1.dist-info/METADATA,sha256=BUUeXiMLG_tLoTJStwJXjmBW6E7gWc-bCO3BlAOvTso,1473
+PyGreSQL-5.1.1.dist-info/RECORD,,
+PyGreSQL-5.1.1.dist-info/WHEEL,sha256=-ODc2a2AO_YJ5T46NOquHfWjRM7bQvlt-f3zRaLBjL4,105
+PyGreSQL-5.1.1.dist-info/top_level.txt,sha256=l1w5zmE7617inTI52YGQ9XCdfrNEbX5jPQSdlw4BF-c,12
+__pycache__/pg.cpython-38.pyc,,
+__pycache__/pgdb.cpython-38.pyc,,
+_pg.cp38-win_amd64.pyd,sha256=6SHmFO31voVGXlWOKDxb2hxHzadmENI-yFaux20dgIQ,86016
+pg.py,sha256=V6pD-T8h1Vfp9S-DgxDoHeIgT8nt5ZHnbu2cW4eY6Bk,101086
+pgdb.py,sha256=b-AI1zcgWGAhnoqgA3brx9GCMFp2ydZMQknr2NWmGrU,62837

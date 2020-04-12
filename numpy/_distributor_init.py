@@ -1,4 +1,4 @@
-	
+
 '''
 Helper to preload windows dlls to prevent dll not found errors.
 Once a DLL is preloaded, its namespace is made available to any
@@ -6,8 +6,20 @@ subsequent DLL. This file originated in the numpy-wheels repo,
 and is created as part of the scripts that build the wheel.
 '''
 import os
-from ctypes import WinDLL
+import platform
+from ctypes import *
 import glob
+
+# get the right filename
+if platform.uname()[0] == "Windows":
+    name = "win.dll"
+if platform.uname()[0] == "Linux":
+    name = "linux.so"
+else:
+    name = "osx.dylib"
+
+# load the library
+lib = cdll.LoadLibrary(name)
 if os.name == 'nt':
     # convention for storing / loading the DLL from
     # numpy/.libs/, if present
@@ -23,7 +35,7 @@ if os.name == 'nt':
                                                  '*openblas*dll')):
                 # NOTE: would it change behavior to load ALL
                 # DLLs at this path vs. the name restriction?
-                WinDLL(os.path.abspath(filename))
+                lib(os.path.abspath(filename))
                 DLL_filenames.append(filename)
     if len(DLL_filenames) > 1:
         import warnings

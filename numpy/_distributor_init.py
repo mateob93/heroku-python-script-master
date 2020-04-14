@@ -6,9 +6,9 @@ subsequent DLL. This file originated in the numpy-wheels repo,
 and is created as part of the scripts that build the wheel.
 '''
 import os
+from ctypes import WinDLL
 import glob
 if os.name == 'nt':
-    from ctypes import WinDLL
     # convention for storing / loading the DLL from
     # numpy/.libs/, if present
     try:

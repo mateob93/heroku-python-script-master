@@ -47,5 +47,3 @@ class MqttClient:
             convert2SQL.main(MqttClient.full_msg)
         else:
             MqttClient.full_msg = MqttClient.full_msg + msg.payload.decode()
-            
-

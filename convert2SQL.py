@@ -135,7 +135,7 @@ def appendData(data, cols, vals, arrayInput):
     return cols, vals, label
     
 def main(InData):
-	
+    
     InData = InData.replace("\r","")
     start_time = time.time()
 
@@ -162,7 +162,6 @@ def main(InData):
     lines = content[0].splitlines()
     columns = []
     values = []
-
     # Write to packet table
     for line in lines:
         line = line.split(":")
@@ -212,12 +211,12 @@ def main(InData):
         writeManyToDatabase(columns, values, "DATA")
 
     conn.close()
-    # polling the connection will now raise an error
+    '''# polling the connection will now raise an error
     try:
         # get the poll one last time
         check_poll_status()
     except InterfaceError as error:
-        print ("psycopg2 ERROR:", error)
+        print ("psycopg2 ERROR:", error)'''
 
     print("--- %s seconds ---" % (time.time() - start_time))
     

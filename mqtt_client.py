@@ -12,12 +12,17 @@ class MqttClient:
         self.client.reconnect_delay_set(min_delay=1, max_delay=2)
         self.client.connect(host=host, port=18096, keepalive=60)
 
-        (res, mid) = self.client.subscribe("/pi/test", 1)
-        print("Subscribed with result code " + str(res))
+        for topic in MqttClient.topics:
+            (res, mid) = self.client.subscribe(topic, 1)
+            print("Subscribed to "+topic+" with result code " + str(res))
         self.client.loop_forever()
 
     amount_of_receptions = 0
-    full_msg = ""
+    topics = ["/pi/test"]
+    full_msg = {}
+    for i in topics:
+        full_msg[i] = ""
+
     #convert2SQL.main(full_msg)
     # The callback for when the client receives a CONNBACK response from the server
     @staticmethod
@@ -44,6 +49,6 @@ class MqttClient:
 #            f.write(msg.payload.decode())
         print("Amount of receptions so far:", MqttClient.amount_of_receptions)
         if msg.payload.decode() == 'Finish':
-            convert2SQL.main(MqttClient.full_msg)
+            convert2SQL.main(MqttClient.full_msg[msg.topic])
         else:
-            MqttClient.full_msg = MqttClient.full_msg + msg.payload.decode()
+            MqttClient.full_msg[msg.topic] = MqttClient.full_msg.get(msg.topic) + msg.payload.decode()

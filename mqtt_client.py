@@ -1,8 +1,22 @@
 import paho.mqtt.client as mqtt
-import datetime
-import convert2SQL
+import upload_database
+from enum import Enum
+
+
+class Topics(Enum):
+    SEISMIC = "/pi/test"
+    T_AND_H = "/pi/temp"
+
 
 class MqttClient:
+    # class variables
+    amount_of_receptions = 0
+    topics = [x.value for x in Topics]
+    topics_and_messages = {}
+    for topic in topics:
+        topics_and_messages[topic] = ""
+
+    # instance methods
     def __init__(self, host, usr, password):
         self.client = mqtt.Client(client_id="5ub5cr1b3r_cl13n7_1d", protocol=mqtt.MQTTv311, clean_session=False)
         self.client.on_connect = MqttClient.on_connect
@@ -12,18 +26,15 @@ class MqttClient:
         self.client.reconnect_delay_set(min_delay=1, max_delay=2)
         self.client.connect(host=host, port=18096, keepalive=60)
 
-        for topic in MqttClient.topics:
-            (res, mid) = self.client.subscribe(topic, 1)
-            print("Subscribed to "+topic+" with result code " + str(res))
+        self.subscribe_to_topics()
+
         self.client.loop_forever()
 
-    amount_of_receptions = 0
-    topics = ["/pi/test"]
-    full_msg = {}
-    for i in topics:
-        full_msg[i] = ""
+    def subscribe_to_topics(self):
+        for topic in MqttClient.topics:
+            (res, mid) = self.client.subscribe(topic, 1)
+            print("Subscribed to " + topic + " with result code " + str(res))
 
-    #convert2SQL.main(full_msg)
     # The callback for when the client receives a CONNBACK response from the server
     @staticmethod
     def on_connect(client, userdata, flags, rc):
@@ -36,8 +47,9 @@ class MqttClient:
     def on_disconnect(client, userdata, rc):
         if rc != 0:
             print("Unexpected disconnection.")
-#            with open("errors.log", "a") as e:
-#                e.write("[" + str(datetime.datetime.now()) + "]: " "Unexpected disconnection.\n")
+
+    #            with open("errors.log", "a") as e:
+    #                e.write("[" + str(datetime.datetime.now()) + "]: " "Unexpected disconnection.\n")
 
     # The callback for when a PUBLISH message is received from the server
     @staticmethod
@@ -45,10 +57,10 @@ class MqttClient:
         MqttClient.amount_of_receptions = MqttClient.amount_of_receptions + 1
         print("Message received: ")
         print(msg.topic, " ", msg.payload.decode())
-#        with open("result.txt", "a") as f:
-#            f.write(msg.payload.decode())
+        #        with open("result.txt", "a") as f:
+        #            f.write(msg.payload.decode())
         print("Amount of receptions so far:", MqttClient.amount_of_receptions)
         if msg.payload.decode() == 'Finish':
-            convert2SQL.main(MqttClient.full_msg[msg.topic])
+            upload_database.upload_to_database(msg.topic, MqttClient.topics_and_messages[msg.topic])
         else:
-            MqttClient.full_msg[msg.topic] = MqttClient.full_msg.get(msg.topic) + msg.payload.decode()
+            MqttClient.topics_and_messages[msg.topic] = MqttClient.topics_and_messages.get(msg.topic) + msg.payload.decode()

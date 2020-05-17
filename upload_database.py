@@ -5,6 +5,7 @@ import requests
 import db_credentials
 import mqtt_client
 
+# todo: cambiar por endpoint posta
 DB_ENDPOINT = "http://127.0.0.1:5000/temp-hum"
 
 

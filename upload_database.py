@@ -24,7 +24,8 @@ def upload_to_database(topic, msg):
     try:
         package_to_send = parse_model(topic, msg)
     except Exception as e:
-        print("Data was incomplete and model was not created.")
+        print("Data was incomplete and model was not created:")
+        print(e)
         return -1
 
     # todo: Descubrir como esconder esto

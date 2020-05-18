@@ -17,7 +17,6 @@ def parse_payload(payload):
 class TemperaturePayload(Payload):
 
     def __init__(self, payload):
-        # todo: if payload == FAIL hacer que siga corriendo, valor 0-0, null o no se
         self.temperature, self.humidity = parse_payload(payload)
 
     def to_dict(self):

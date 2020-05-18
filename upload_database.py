@@ -5,8 +5,7 @@ import requests
 import db_credentials
 import mqtt_client
 
-# todo: cambiar por endpoint posta
-DB_ENDPOINT = "http://127.0.0.1:5000/temp-hum"
+BASE_ENDPOINT = "https://telemetria-temperatura.herokuapp.com/"
 
 
 def parse_model(topic, msg):
@@ -31,12 +30,15 @@ def upload_to_database(topic, msg):
     # todo: Descubrir como esconder esto
     if topic == mqtt_client.Topics.SEISMIC.value:
         db_creds = db_credentials.DbCredentials("rqalxjjwytlbpa",
-                                            "ae2da8dade7014ca5e1f6cc5af99b995ebc39f47035079b316e2101b9cdcba78")
+                                                "ae2da8dade7014ca5e1f6cc5af99b995ebc39f47035079b316e2101b9cdcba78")
+        endpoint = BASE_ENDPOINT + "seismic-data"
     elif topic == mqtt_client.Topics.T_AND_H.value:
-        db_creds = db_credentials.DbCredentials("fholeiikypyjvb", "37ef2dbb2386e0fd3393b611ad251d8d9e565fadf460509e5b965e0f4242a5c2")
+        db_creds = db_credentials.DbCredentials("fholeiikypyjvb",
+                                                "37ef2dbb2386e0fd3393b611ad251d8d9e565fadf460509e5b965e0f4242a5c2")
+        endpoint = BASE_ENDPOINT + "temp-hum"
 
     data = form_data(package_to_send, db_creds)
-    r = requests.post(url=DB_ENDPOINT, data=data, headers={'content-type': 'application/json'})
+    r = requests.post(url=endpoint, data=data, headers={'content-type': 'application/json'})
     print(r.text)
     return r.status_code
 

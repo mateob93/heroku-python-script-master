@@ -1,0 +1,22 @@
+package_id: '00001'
+package_len: 018008580
+package_date: '20191011172018'
+segments:
+- segment_id: '001'
+  segment_date: '20191011172018'
+  segment_microsec: '00000'
+  segment_rate: '0500'
+  flag1: flag1
+  flag2: flag2
+  flag3: flag3
+  flag4: flag4
+  payload: 'T25.00H30.00'
+- segment_id: '002'
+  segment_date: '20191011172018'
+  segment_microsec: '00000'
+  segment_rate: '0500'
+  flag1: flag1
+  flag2: flag2
+  flag3: flag3
+  flag4: flag4
+  payload: 'T27.00H32.00'

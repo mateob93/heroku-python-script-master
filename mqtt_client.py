@@ -35,7 +35,6 @@ class MqttClient:
             (res, mid) = self.client.subscribe(topic, 1)
             print("Subscribed to " + topic + " with result code " + str(res))
 
-    # The callback for when the client receives a CONNBACK response from the server
     @staticmethod
     def on_connect(client, userdata, flags, rc):
         if rc == 0:

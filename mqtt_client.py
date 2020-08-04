@@ -23,7 +23,7 @@ class MqttClient:
         self.client.on_message = MqttClient.on_message
         self.client.on_disconnect = MqttClient.on_disconnect
         self.client.username_pw_set(usr, password)
-        self.client.reconnect_delay_set(min_delay=1, max_delay=2)
+        self.client.reconnect_delay_set(min_delay=25, max_delay=30)
         self.client.connect(host=host, port=18096, keepalive=60)
 
         self.subscribe_to_topics()

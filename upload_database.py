@@ -37,7 +37,7 @@ def upload_to_database(topic, msg):
         endpoint = BASE_ENDPOINT + "seismic-data"
     elif topic == mqtt_client.Topics.T_AND_H.value:
         db_creds = db_credentials.DbCredentials(base64.b64decode(os.environ['TH_USR']).decode('utf-8'),
-                                                base64.b64decode(os.environ['SEISMIC_USR']).decode('utf-8'))
+                                                base64.b64decode(os.environ['TH_SCT']).decode('utf-8'))
         endpoint = BASE_ENDPOINT + "temp-hum"
 
     data = form_data(package_to_send, db_creds)

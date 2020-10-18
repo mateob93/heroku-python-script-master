@@ -2,10 +2,11 @@
 # Continuosly monitor a MQTT topic for data
 
 from mqtt_client import MqttClient
+import config
 
 
 def main():
-    client = MqttClient("tailor.cloudmqtt.com", "sfluras-dev", "sebas32")
+    client = MqttClient(config.HOST, config.USER, config.PW)
 
 
 if __name__ == "__main__":

@@ -1,11 +1,14 @@
 import json
+import os
+
 import yaml
 from model import package
 import requests
 import db_credentials
 import mqtt_client
+import base64
 
-BASE_ENDPOINT = "https://telemetria-temperatura.herokuapp.com/"
+from config import BASE_ENDPOINT
 
 
 def parse_model(topic, msg):
@@ -28,14 +31,13 @@ def upload_to_database(topic, msg):
         print(e)
         return -1
 
-    # todo: Descubrir como esconder esto
     if topic == mqtt_client.Topics.SEISMIC.value:
-        db_creds = db_credentials.DbCredentials("rqalxjjwytlbpa",
-                                                "ae2da8dade7014ca5e1f6cc5af99b995ebc39f47035079b316e2101b9cdcba78")
+        db_creds = db_credentials.DbCredentials(base64.b64decode(os.environ['SEISMIC_USR']).decode('utf-8'),
+                                                base64.b64decode(os.environ['SEISMIC_SCT']).decode('utf-8'))
         endpoint = BASE_ENDPOINT + "seismic-data"
     elif topic == mqtt_client.Topics.T_AND_H.value:
-        db_creds = db_credentials.DbCredentials("fholeiikypyjvb",
-                                                "37ef2dbb2386e0fd3393b611ad251d8d9e565fadf460509e5b965e0f4242a5c2")
+        db_creds = db_credentials.DbCredentials(base64.b64decode(os.environ['TH_USR']).decode('utf-8'),
+                                                base64.b64decode(os.environ['TH_SCT']).decode('utf-8'))
         endpoint = BASE_ENDPOINT + "temp-hum"
 
     data = form_data(package_to_send, db_creds)

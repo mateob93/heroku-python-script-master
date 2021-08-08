@@ -1,5 +1,7 @@
-from model import seismic_payload, temperature_payload, ultrasound_payload
+from model import seismic_payload, temperature_payload, ultrasound_payload, example_payload
 from enum import Enum
+
+from topics import Topics
 
 
 class Segment:
@@ -17,12 +19,14 @@ class Segment:
     @staticmethod
     def build_payload(payload, payload_type):
         # todo: acomodar parseo payload sismica
-        if payload_type == PayloadTypes.seismic.value:
+        if payload_type == Topics.SEISMIC.value:
             return seismic_payload.SeismicPayload(**payload)
-        elif payload_type == PayloadTypes.temp_and_hum.value:
+        elif payload_type == Topics.T_AND_H.value:
             return temperature_payload.TemperaturePayload(payload)
-        elif payload_type == PayloadTypes.ultrasound:
+        elif payload_type == Topics.ULTRASOUND.value:
             return ultrasound_payload.UltrasoundPayload(**payload)
+        elif payload_type == Topics.EXAMPLE.value:
+            return example_payload.ExamplePayload(payload)
 
     def to_dict(self):
         return {
@@ -49,8 +53,3 @@ class SegmentTags(Enum):
     flag3 = 7
     flag4 = 8
     payload = 9
-
-
-class PayloadTypes(Enum):
-    seismic = "/pi/test"
-    temp_and_hum = "/pi/temp"

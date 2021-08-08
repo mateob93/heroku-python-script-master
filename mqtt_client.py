@@ -1,12 +1,6 @@
 import paho.mqtt.client as mqtt
 import upload_database
-from enum import Enum
-
-
-class Topics(Enum):
-    SEISMIC = "/pi/test"
-    T_AND_H = "/pi/temp"
-    ULTRASOUND = "/pi/ultrasound"
+from topics import Topics
 
 
 class MqttClient:

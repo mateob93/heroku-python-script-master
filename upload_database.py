@@ -43,6 +43,10 @@ def upload_to_database(topic, msg):
         db_creds = db_credentials.DbCredentials(base64.b64decode(os.environ['ULTRASOUND_USR']).decode('utf-8'),
                                                 base64.b64decode(os.environ['ULTRASOUND_SCT']).decode('utf-8'))
         endpoint = BASE_ENDPOINT + "ultrasound"
+    elif topic == mqtt_client.Topics.EXAMPLE.value:
+        db_creds = db_credentials.DbCredentials(base64.b64decode(os.environ['EX_USR']).decode('utf-8'),
+                                                base64.b64decode(os.environ['EX_SCRT']).decode('utf-8'))
+        endpoint = BASE_ENDPOINT + "example"
 
     data = form_data(package_to_send, db_creds)
     r = requests.post(url=endpoint, data=data, headers={'content-type': 'application/json'})
